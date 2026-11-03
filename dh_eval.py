@@ -21,6 +21,8 @@ FIXED_N = 200          # deterministic sim count so results do not depend on mac
 def make_arm(name, seed):
     if name == 'v1':      # frozen reference: no exploitation, no discard tracking, no tie-break
         return dh_bot.Bot(seed=seed, fixed_n=FIXED_N, params=dict(ex=0.0, eps=0.0, tie=0.0))
+    if name.startswith('n:'):                          # compute-sensitivity arms: v2 with a different sim count
+        return dh_bot.Bot(seed=seed, fixed_n=int(name[2:]))
     if name == 'v2':
         return dh_bot.Bot(seed=seed, fixed_n=FIXED_N, params=dict(ex=1.0, eps=1.0, tie=1.0))
     if name.startswith('v1:'):                         # v1:key=val,key=val parameter override
